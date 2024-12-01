@@ -153,6 +153,7 @@ vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -189,6 +190,14 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- ################## MY CONFIGURATION ##################
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true }) -- open the file tree with CTRL+n when in normal mode
+-- TABS MANAGEMENT
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { noremap = true, silent = true }) -- open the file tree with CTRL+n when in normal mode
+vim.keymap.set('n', '<S-Tab>', ':tabprev<CR>', { noremap = true, silent = true }) -- open the file tree with CTRL+n when in normal mode
+vim.keymap.set('n', 'tn', ':tabnew<CR>', { noremap = true, silent = true }) -- open the file tree with CTRL+n when in normal mode
+vim.keymap.set('n', 'tc', ':tab close<CR>', { noremap = true, silent = true }) -- open the file tree with CTRL+n when in normal mode
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -255,6 +264,37 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'nvim-tree/nvim-tree.lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }, -- optional, for file icons
+    config = function()
+      require('nvim-tree').setup {
+        -- Configuration options
+        view = {
+          width = 30, -- Adjust the width of the tree
+          side = 'left', -- Choose which side the tree is displayed
+        },
+        renderer = {
+          icons = {
+            glyphs = {
+              folder = {
+                arrow_closed = '',
+                arrow_open = '',
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
+  -- {
+  --   'nanozuki/tabby.nvim',
+  --   -- event = 'VimEnter', -- if you want lazy load, see below
+  --   dependencies = 'nvim-tree/nvim-web-devicons',
+  --   config = function()
+  --     -- configs...
+  --   end,
+  -- },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -615,9 +655,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
